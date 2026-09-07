@@ -3,7 +3,7 @@
 Build a simple NN pipeline using Python for image recognition. The project covers image loading, preprocessing, dataset splitting, neural network training, evaluation, and prediction.
 
 # Data 
-Cats and Dogs Classification Dataset: https://www.kaggle.com/datasets/sc0v1n0/animal-picture-set-penguin-turtle?resource=download
+penguin and turtles Classification Dataset: https://www.kaggle.com/datasets/sc0v1n0/animal-picture-set-penguin-turtle?resource=download
 
 # Structure
 
