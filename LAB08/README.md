@@ -4,47 +4,29 @@ code clone by https://github.com/aproot-en/Machine-Learning-Course/tree/main/ML-
 # Structure
 
 ML-08-DNN/
-│
-├── Animals/                     
+Structure
+
+```
+ML-08-DNN/
+├── Animals/
 │   ├── train/
 │   │   ├── cats/
-│   │   │     ├─0_cat
-│   │   │     └──...
 │   │   ├── dogs/
-│   │   │     ├─0_dod
-│   │   │     └──..
 │   │   ├── penguins/
-│   │   │     ├─0_penguin
-│   │   │     └──...
 │   │   └── turtles/
-│   │         ├─0_turtle
-│   │         └──...
 │   └── valid/
 │       ├── cats/
-│       │     ├─0_cat
-│       │     └──...
 │       ├── dogs/
-│       │     ├─0_dod
-│       │     └──..
 │       ├── penguins/
-│       │     ├─0_penguin
-│       │     └──...
 │       └── turtles/
-│             ├─0_turtle
-│             └──...
-│
 ├── mini-proj/
-│   ├── _pycache_/
+│   ├── __pycache__/
 │   ├── outputs/
 │   ├── data_loader.py
-│   ├── evaluate.py 
+│   ├── evaluate.py
 │   ├── main.py
 │   ├── preprocessing.py
-│   ├── split_data.py 
-│   ├── test_vgg.py
+│   ├── split_data.py
 │   └── test_vgg.py
-│
-└──README.md  
-   
-
-
+└── README.md
+```
