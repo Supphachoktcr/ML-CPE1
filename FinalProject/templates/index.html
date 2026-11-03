@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Seminar Satisfaction Monitor</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
+        h1 { color: #333; }
+        .container { display: flex; justify-content: center; align-items: flex-start; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
+        .video-box { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        img { border-radius: 5px; max-width: 100%; height: auto; }
+        .control-panel { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 320px; text-align: left; }
+        .control-panel h3 { margin-top: 0; color: #2c3e50; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input[type="text"] { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        button { background-color: #27ae60; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; transition: background 0.3s; margin-bottom: 10px; }
+        button:hover { background-color: #219653; }
+        .btn-report { background-color: #2980b9; }
+        .btn-report:hover { background-color: #1f618d; }
+        #statusMessage, #reportMessage { margin-top: 10px; font-size: 14px; font-weight: bold; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h1>Real-time Seminar Satisfaction Monitoring System</h1>
+
+    <div class="container">
+        <!-- วิดีโอสตรีมมิ่ง -->
+        <div class="video-box">
+            <img src="{{ url_for('video_feed') }}" width="640" height="480">
+        </div>
+
+        <!-- แผงควบคุม -->
+        <div class="control-panel">
+            <h3>บันทึกหัวข้อ</h3>
+            <div class="form-group">
+                <input type="text" id="topicInput" placeholder="เช่น ช่วงถาม-ตอบ...">
+            </div>
+            <button onclick="markTimestamp()">บันทึกหัวข้อนี้</button>
+            <div id="statusMessage"></div>
+
+            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;">
+            
+            <h3>สรุปผลรายงานอัตโนมัติ</h3>
+            <button class="btn-report" onclick="generateReport()">สร้างไฟล์สรุป</button>
+            <div id="reportMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        function markTimestamp() {
+            const topic = document.getElementById('topicInput').value;
+            const statusDiv = document.getElementById('statusMessage');
+            if (!topic.trim()) { alert('กรุณากรอกชื่อหัวข้อครับ'); return; }
+
+            fetch('/mark_timestamp', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topic: topic })
+            })
+            .then(res => res.json())
+            .then(data => {
+                statusDiv.style.color = "#27ae60";
+                statusDiv.innerText = `บันทึกแล้ว (${data.data.rate.toFixed(1)}%)`;
+                document.getElementById('topicInput').value = ''; 
+            })
+            .catch(err => { statusDiv.innerText = 'เกิดข้อผิดพลาด'; });
+        }
+
+        // ฟังก์ชันใหม่ สำหรับเรียก API สรุปรายงาน
+        function generateReport() {
+            const msgDiv = document.getElementById('reportMessage');
+            msgDiv.style.color = "#2980b9";
+            msgDiv.innerText = "กำลังประมวลผล...";
+            
+            fetch('/generate_report', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'success'){
+                    msgDiv.style.color = "#27ae60";
+                    msgDiv.innerText = `${data.message}`;
+                } else {
+                    msgDiv.style.color = "#c0392b";
+                    msgDiv.innerText = `${data.message}`;
+                }
+            })
+            .catch(error => { msgDiv.innerText = 'เกิดข้อผิดพลาด'; });
+        }
+    </script>
+</body>
+</html>
